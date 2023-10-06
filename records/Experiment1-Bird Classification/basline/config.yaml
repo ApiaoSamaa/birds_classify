@@ -1,16 +1,16 @@
-project_name: Assignment_whole_data
+project_name: Experiment1-Bird Classification
 notes: 'no inverse'
 exp_name: basline
 use_wandb: False
 wandb_entity: ''
-train_root: ./CUB_200_2011/train/
-val_root: ./CUB_200_2011/test/
+train_root: None
+val_root: ./CUB_200_2011/test_DataSet/
 data_size: 384
+# TODO
 num_workers: 2
 batch_size: 8
+pretrained: '/Users/a123/proj/bird/pretrained/epoch_43.pt'
 model_name: swin-t
-# TODO
-pretrained: ~
 optimizer: SGD
 max_lr: 0.0005
 wdecay: 0.0003

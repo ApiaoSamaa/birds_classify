@@ -181,7 +181,7 @@ def predict_and_save(args, model, val_loader):
     for result in results:
         msg += "{} {}\n".format(result[0], result[1])
     with open(args.save_dir + "eval_results.txt", "w") as ftxt:
-        ftxt.write("58120309 王玟雯")
+        ftxt.write("YOUR NAME")
     with open(args.save_dir + "eval_results.txt", "a") as ftxt:
         ftxt.write(msg)
   

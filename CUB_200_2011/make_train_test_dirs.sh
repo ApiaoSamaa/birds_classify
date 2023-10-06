@@ -1,10 +1,10 @@
 #!/bin/zsh
 
 # The main directory containing all category directories
-ORIGINAL_DIR='/Users/a123/proj/FGVC-HERBS/CUB_200_2011/CUB_200_2011/images'
+ORIGINAL_DIR='/Users/a123/proj/bird/CUB_200_2011/CUB_200_2011/images'
 # The directory where you want to create symbolic links to all subcategories
-TRAIN_DIR="/Users/a123/proj/FGVC-HERBS/CUB_200_2011/train"
-TEST_DIR="/Users/a123/proj/FGVC-HERBS/CUB_200_2011/test"
+TRAIN_DIR="/Users/a123/proj/bird/CUB_200_2011/train"
+TEST_DIR="/Users/a123/proj/bird/CUB_200_2011/test"
 
 # Create the TRAIN_DIR and TEST_DIR if they don't exist
 mkdir -p "$TRAIN_DIR"
