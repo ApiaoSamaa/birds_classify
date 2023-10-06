@@ -20,7 +20,7 @@ use_amp: True
 use_fpn: True
 fpn_size: 1536
 use_selection: True
-num_classes: 200
+num_classes: 70
 num_selects: 
   layer1: 256
   layer2: 128

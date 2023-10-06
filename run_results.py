@@ -1,9 +1,6 @@
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
 import contextlib
 import warnings
-
 from models.builder import MODEL_GETTER
 from utils.costom_logger import timeLogger
 from utils.config_utils import load_yaml, build_record_folder, get_args
@@ -13,17 +10,15 @@ import cv2
 import torch
 import torchvision.transforms as transforms
 from PIL import Image
+from pathlib import Path
 import torch
 
 class TestImageDataset(torch.utils.data.Dataset):
-
     def __init__(self, 
                  istrain: bool,
                  root: str,
                  data_size: int,
                  return_index: bool = False):
-        # notice that:
-        # sub_data_size mean sub-image's width and height.
         """ basic information """
         self.root = root
         self.data_size = data_size
@@ -155,6 +150,18 @@ def set_environment(args, tlogger):
 
     return None , val_loader, model, optimizer, None , scaler, amp_context, start_epoch
 
+
+
+def convert_gif_to_jpg(directory_path):
+    directory = Path(directory_path)
+    # Iterate through all .jpg files
+    for file_path in directory.glob("*.jpg"):
+        with Image.open(file_path) as img:
+            if img.format == "GIF":
+                # Convert GIF to JPEG
+                converted_img = img.convert('RGB')
+                converted_img.save(file_path, "JPEG")
+
 @torch.no_grad()
 def predict_and_save(args, model, val_loader):
     print("Start Printing Birds Prediction ...")
@@ -168,12 +175,11 @@ def predict_and_save(args, model, val_loader):
             pre = outs["comb_outs"].argmax(dim=-1).cpu().numpy()
             print(list(zip(filename, pre)))
             results.extend(list(zip(filename, pre)))
-    msg = "[Evaluation Results]\n"
-    msg += "Project: {}, Experiment: {}\n".format(args.project_name, args.exp_name)
-    msg += "Samples: {}\n".format(len(val_loader.dataset))
+    # msg += "Project: {}, Experiment: {}\n".format(args.project_name, args.exp_name)
+    # msg += "Samples: {}\n".format(len(val_loader.dataset))
     msg += "\n"
     for result in results:
-        msg += "{} {}%\n".format(result[0], result[1])
+        msg += "{} {}\n".format(result[0], result[1])
     with open(args.save_dir + "eval_results.txt", "w") as ftxt:
         ftxt.write("58120309 王玟雯")
     with open(args.save_dir + "eval_results.txt", "a") as ftxt:
@@ -182,7 +188,6 @@ def predict_and_save(args, model, val_loader):
 def main(args, tlogger):
     _ , val_loader, model, _, _, _, _, _ = set_environment(args, tlogger)
     predict_and_save(args, model, val_loader)
-
 
 if __name__ == "__main__":
 
@@ -193,4 +198,5 @@ if __name__ == "__main__":
     load_yaml(args, args.c)
     build_record_folder(args)
     tlogger.print()
+    convert_gif_to_jpg(args.val_root)
     main(args, tlogger)
