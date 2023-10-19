@@ -30,6 +30,11 @@ def build_loader(args):
 #         return train_set
 #     return None
 
+def delete_ds_store(directory="."):
+    for root_dir, _, _ in os.walk(directory):
+        ds_store_path = os.path.join(root_dir, ".DS_Store")
+        if os.path.exists(ds_store_path):
+            os.remove(ds_store_path)
 
 class ImageDataset(torch.utils.data.Dataset):
 
@@ -80,6 +85,7 @@ class ImageDataset(torch.utils.data.Dataset):
 
     def getDataInfo(self, root):
         data_infos = []
+        delete_ds_store(root)
         folders = os.listdir(root)
         folders.sort() # sort by alphabet
         print("[dataset] class number:", len(folders))

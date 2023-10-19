@@ -91,7 +91,7 @@ def set_environment(args, tlogger):
         optimizer.load_state_dict(checkpoint['optimizer'])
 
     tlogger.print()
-
+    # pay attention to this place, len(train_loader) too short will make the function went wrong.
     schedule = cosine_decay(args, len(train_loader))
 
     if args.use_amp:
